@@ -95,7 +95,7 @@ Install Docker for armhf by following the guide here:
 
 https://docs.docker.com/engine/install/ubuntu/
 
-sudo docker run hello-world
+	sudo docker run hello-world
 
 The hello-world image should work if you followed the my steps.
 
