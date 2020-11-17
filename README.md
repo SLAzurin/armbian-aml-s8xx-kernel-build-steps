@@ -8,7 +8,7 @@ If you follow the guide correctly, you should not have any issues.
 
 * Note about Docker: Docker's apt repository for armhf only works on Bionic at the time this guide is written. Focal is not supported on armhf for now.
 
-* Note: I am using Armbian downloaded from by balbes150 here: https://forum.armbian.com/topic/14232-single-armbian-image-for-rk-aml-aw-armhf-armv7/
+* Note: I am using Armbian built by balbes150 downloaded from here: https://forum.armbian.com/topic/14232-single-armbian-image-for-rk-aml-aw-armhf-armv7/
 
 ## The guide starts now.
 
