@@ -22,7 +22,7 @@ I am using Linux 5.9 to build Linux 5.10 and to make it work with Docker.
 
 Click on the green code dropdown button and click download zip. (the git clone command will take forever so don't clone.)
 
-From here, I will use the root account and the /root/ directory for my workspace on my s8xx device
+From here, I will use the root user and the /root/ directory for my workspace on my s8xx device
 
 Copy that downloaded zip into your s8xx device in the /root/ directory and extract it.
 
