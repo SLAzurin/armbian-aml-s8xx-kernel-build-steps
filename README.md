@@ -6,11 +6,11 @@ I am not responsible for any damages you cause to your devices.
 
 If you follow the guide correctly, you should not have any issues.
 
-* Note about Docker: Docker's apt repository for armhf only works on Bionic at the time this guide is written. Focal is not supported on armhf for now.
+* Note about Docker: Docker's apt repository for armhf only works on Bionic at the time this guide is written. Focal is not supported on armhf for now. You can install Docker by following this guide here: https://docs.docker.com/engine/install/ubuntu/
 
 * Note: I am using Armbian for s8xx built by balbes150 downloaded from here: https://forum.armbian.com/topic/14232-single-armbian-image-for-rk-aml-aw-armhf-armv7/
 
-## The guide starts now.
+## Getting the kernel source code and using your existing config
 
 Head over to https://github.com/xdarklight/linux/branches
 
@@ -35,6 +35,8 @@ On your s8xx device, copy the config file inside /boot, paste it inside the linu
 
 	cp  /boot/config-5.9.0-rc7-aml-s812 /root/linux-meson-mx-integration-5.10-20201115/.config
 
+## Editing the .config
+
 Edit the .config file using any text editor.
 
 You can copy it on your host os (Windows or your main computer's OS) if it is easier for you, then copy it back when you are done editing it.
@@ -51,9 +53,11 @@ This will show you what is missing for Docker.
 
 You do not need zfs, it is optional even if it is missing (unless you plan to add it).
 
-For me I will not add zfs for Docker.
+For me I will not add zfs.
 
 I will add the missing configs that I needed to add in .config at the end of the guide.
+
+You can just add those missing configs at the end of the .config file and continue on with this guide.
 
 After you are finished editing and saved your .config file, follow these steps:
 
@@ -73,25 +77,31 @@ When you execute the make command it may ask you to set new config values in add
 
 The new configs can just be set to default most of the time.
 
-I will just spam the Enter key until there is no more config to set.
+I will just spam the Enter key until there is no more config to set. (Sets all new config to default)
 
 You can abort this command at anytime with CTRL + C
+
+There is no more config to set when you will see the compiler slowly print one line at the time. This is where the waiting game starts.
 
 After the command is finished, you are almost done.
 
 Make a backup of the current Linux Kernel and apply the new one.
-
+	
+	# still inside /root/linux-meson-mx-integration-5.10-20201115/
+	
 	cp /boot/uImage /boot/uImage.bak
 
 	cp arch/arm/boot/uImage /boot 
 
-Optional: copy the new config file to the /boot partition
+## Optional: copy the new finalized config file to the /boot partition
+
+	# still inside /root/linux-meson-mx-integration-5.10-20201115/
 
 	cp .config /boot/config-5.10
 
-Check if Docker works.
+## Checking if Docker works
 
-Install Docker for armhf by following the guide here: 
+Install Docker for armhf by following the guide here if you haven't yet: 
 
 https://docs.docker.com/engine/install/ubuntu/
 
@@ -99,7 +109,11 @@ https://docs.docker.com/engine/install/ubuntu/
 
 The hello-world image should work if you followed the my steps.
 
+The error about POSIX_MQUEUE should be gone.
+
 ## References:
+
+Thanks to ntux for the build steps, balbes150 for the armbian builds, xdarklight for the linux kernel!
 
 https://github.com/xdarklight/linux/branches
 
