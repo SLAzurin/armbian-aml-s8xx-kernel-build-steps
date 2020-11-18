@@ -1,4 +1,4 @@
-# Steps to build your own s8xx kernel (armhf)
+# Steps to build your own s8xx kernel (armhf) that works with Docker!
 
 It is best you read the guide at least once and understand it before you start.
 
