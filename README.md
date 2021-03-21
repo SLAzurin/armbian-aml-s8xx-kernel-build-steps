@@ -55,7 +55,7 @@ You do not need zfs, it is optional even if it is missing (unless you plan to ad
 
 For me I will not add zfs.
 
-I will add the missing configs that I needed to add in .config at the end of the guide.
+<h1>I will add the missing configs that I needed to add to make Docker work in .config at the end of the guide.</h1>
 
 You can just add those missing configs at the end of the .config file and continue on with this guide.
 
