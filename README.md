@@ -126,7 +126,7 @@ https://forum.armbian.com/topic/3023-armbian-for-amlogic-s805-and-s802s812/page/
 https://forum.armbian.com/topic/3023-armbian-for-amlogic-s805-and-s802s812/page/20/?tab=comments#comment-98704
 
 ## Missing config for docker, add these lines at the very end of the .config file:
-
+(5.9 => 5.10)
 CONFIG_NF_NAT_IPV4=y \
 CONFIG_NF_NAT_NEEDED=y \
 CONFIG_POSIX_MQUEUE=y \
@@ -146,3 +146,5 @@ CONFIG_EXT3_FS_SECURITY=y \
 CONFIG_INET_XFRM_MODE_TRANSPORT=y \
 CONFIG_AUFS_FS=y \
 CONFIG_BTRFS_FS_POSIX_ACL=y
+
+(5.10 => 5.11 coming soon)
