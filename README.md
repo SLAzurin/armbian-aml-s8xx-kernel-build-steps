@@ -93,6 +93,10 @@ Make a backup of the current Linux Kernel and apply the new one.
 
 	cp arch/arm/boot/uImage /boot 
 
+Restart your device and hope it works.
+
+If it does not work and you are stuck in a black screen, plug the sd card to your computer, delete /boot/uImage, rename /boot/uImage.bak to /boot/uImage
+
 ## Optional: copy the new finalized config file to the /boot partition
 
 	# still inside /root/linux-meson-mx-integration-5.10-20201115/
