@@ -1,3 +1,5 @@
+<h1>⚠️ Warning! This guide no longer works for the latest version of armbian for s8xx with Kernel v5.10+ ⚠️</h1>
+
 # Steps to build your own s8xx kernel (armhf) that works with Docker!
 
 It is best you read the guide at least once and understand it before you start.
@@ -146,5 +148,3 @@ CONFIG_EXT3_FS_SECURITY=y \
 CONFIG_INET_XFRM_MODE_TRANSPORT=y \
 CONFIG_AUFS_FS=y \
 CONFIG_BTRFS_FS_POSIX_ACL=y
-
-(5.10 => 5.11 coming soon)
