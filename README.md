@@ -18,9 +18,9 @@ The kernel source code we are using is located at https://github.com/xdarklight/
 
 I am using Linux 5.10 to build Linux 5.11 and to make it work with Docker.
 
-From here, I will use the **root** user and the **/root/** directory for my workspace on my s8xx device.
+From here, I will use the `root` user and the `/root/` directory for my workspace on my s8xx device.
 
-Power on your s8xx device on Linux and get the 5.11 source code like so: (10-15 minutes)
+Power on your s8xx device on Linux and get the 5.11 source code like so: (10-15 minutes Class 10 SD card)
 ```
 sudo su
 cd /root/
