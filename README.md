@@ -10,7 +10,7 @@ If you follow the guide correctly, you should not have any issues.
 
 * Note: I am using Armbian for s8xx built by balbes150 downloaded from here: https://users.armbian.com/balbes150/s8xx/
 
-* Note: The current version of the s8xx build is with linux v5.10.
+* Note: The current version of the s8xx build is with linux v5.10. (As of 2021/07/31)
 
 ## Getting the kernel source code and using your existing config
 
