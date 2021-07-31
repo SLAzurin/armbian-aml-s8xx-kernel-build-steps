@@ -107,7 +107,7 @@ The error about POSIX_MQUEUE should be gone.
 
 ## References:
 
-Thanks to ntux, alienven for the build steps, balbes150 for the armbian builds, xdarklight for the linux kernel!
+Thanks to [ntux](https://forum.armbian.com/profile/11841-ntux/), [alienven](https://www.right.com.cn/forum/space-uid-615766.html) for the build steps and config, [balbes150](https://forum.armbian.com/profile/1215-balbes150/) for the armbian builds, [xdarklight](https://github.com/xdarklight/) for the linux kernel!
 
 https://github.com/xdarklight/linux/branches
 
