@@ -120,8 +120,8 @@ https://www.right.com.cn/forum/thread-4115554-1-1.html
 ## Missing config for docker, add these lines at the very end of the .config file:
 
 (5.10 => 5.11) \
-CONFIG_POSIX_MQUEUE=y
-CONFIG_POSIX_MQUEUE_SYSCTL=y
+CONFIG_POSIX_MQUEUE=y \
+CONFIG_POSIX_MQUEUE_SYSCTL=y \
 
 (below here is old)
 ~~(5.9 => 5.10) \
