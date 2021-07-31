@@ -16,10 +16,6 @@ If you follow the guide correctly, you should not have any issues.
 
 The kernel source code we are using is located at https://github.com/xdarklight/linux/
 
-~~Click on the most recent active branch for meson-mx (for me it is meson-mx-integration-5.10-20201115)~~
-
-~~* Note: even if the current kernel version of Linux is older than the most recent one, you can still build the newest linux version.~~
-
 I am using Linux 5.10 to build Linux 5.11 and to make it work with Docker.
 
 From here, I will use the **root** user and the **/root/** directory for my workspace on my s8xx device.
