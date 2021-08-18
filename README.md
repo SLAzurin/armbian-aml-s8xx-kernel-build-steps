@@ -10,79 +10,112 @@ If you follow the guide correctly, you should not have any issues.
 
 * Note: I am using Armbian for s8xx built by balbes150 downloaded from here: https://users.armbian.com/balbes150/s8xx/
 
-* Note: The current version of the s8xx build is with linux v5.10. (As of 2021/07/31)
+* Note: The current version of the s8xx build is with linux v5.10. (As of 2021/08/16)
 
-## Getting the kernel source code and using your existing config
+## Pre-requisites
+This guide's duration used to be 2 hours plus when the new Linux kernel was build on the s8xx device itself.  
+To speed things up, you can use your windows/linux PC with Intel/AMD cpu.  
+I have an i7-10700 and it builds the kernel in 5-10min, compared to 2h45m on my AML s805.  
+If you want to use your PC to build the kernel, you need to be using a Linux distro.  
+It is easier to just use a Linux PC, but you can technically do these same steps on WSL2 for windows or Ubuntu on Docker, granted you know what you're doing.  
+I am using Ubuntu in WSL2 on my windows computer, but the steps are the same as if you're on native Linux.  
+Make sure you have already installed `build-essential` like so: `sudo apt-get update && sudo apt-get -y install build-essential`  
+Make sure you can SSH to your s8xx device.
+
+For simplicity, I'll be using the root user on Ubuntu.  
+
+You will need to download the cross-compile toolchain from [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabihf/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz).  
+Extract it to `~/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf`  
+Add this at the end of this file `~/.bashrc`: (create it if it doesnt exist) 
+```
+PATH=$PATH:"~/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin"
+```
+then run: `source ~/.bashrc` or logout and log back in  
+
+## Getting the kernel source code and using the existing config
 
 The kernel source code we are using is located at https://github.com/xdarklight/linux/
 
-I am using Linux 5.10 to build Linux 5.11 and to make it work with Docker.
+From here, I will use the `root` user and the `/root/` directory for my workspace.
 
-From here, I will use the `root` user and the `/root/` directory for my workspace on my s8xx device.
+Click on the latest most active branch here: https://github.com/xdarklight/linux/branches/active  
+(Currently: `meson-mx-integration-5.14-20210718` as of Aug 16 2021).  
+Then click on the green `Code` button and click `Download ZIP`.  
+Extrct it in the `/root` directory.
 
-Power on your s8xx device on Linux and get the 5.11 source code like so: (10-15 minutes Class 10 SD card)
+s8xx or Command line only steps: 
 ```
 sudo su
 cd /root/
-wget https://github.com/xdarklight/linux/archive/refs/heads/meson-mx-integration-5.11-20201225.zip
-unzip meson-mx-integration-5.11-20201225.zip
+wget https://github.com/xdarklight/linux/archive/refs/heads/meson-mx-integration-5.14-20210718.zip
+unzip meson-mx-integration-5.14-20210718.zip
 ```
 
 Copy the config file inside /boot, paste it inside the linux kernel folder, rename it to .config
 ```
-cp /boot/config-5.10.0-aml-s812 /root/linux-meson-mx-integration-5.11-20201225/.config
-cd /root/linux-meson-mx-integration-5.11-20201225
+cp /boot/config-5.10.0-aml-s812 /root/linux-meson-mx-integration-5.14-20210718/.config
+cd /root/linux-meson-mx-integration-5.14-20210718
 ```
 
 ## Editing the .config
 
-Edit the .config file using any text editor.
-
-You can copy it on your host os (Windows or your main computer's OS) if it is easier for you, then copy it back when you are done editing it.
-
-Steps to check what missing config you need for Docker to work: (optional)
+Run this command:
 ```
-cd /root/
-curl https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh > check-config.sh
-bash ./check-config.sh
+# inside /root/linux-meson-mx-integration-5.14-20210718
+sed -i -e 's@# CONFIG_POSIX_MQUEUE is not set@CONFIG_POSIX_MQUEUE=y\nCONFIG_POSIX_MQUEUE_SYSCTL=y@g' .config
 ```
-
-This will show you what is missing for Docker.
-
-<h4>⚠️ I will add the missing configs that I needed to add to make Docker work in .config at the end of the guide. ⚠️</h4>
-
-You can just add those missing configs at the end of the .config file and continue on with this guide.
-
-After you are finished editing and saved your .config file, follow these steps:
+This adds what's missing for the Linux kernel to be compatible with Docker
 
 ## Steps to build uImage Linux kernel:
+Make sure you are root user or use sudo for all commands below.
 
-The following step will take more than 2 hours to complete. For me it took 2h45m to finish on my s805 1gb ram Sandisk SD card class 10 U1.
-
-Make sure you are root user or use sudo for all commands: (2h45m duration)
+If you're building the kernel on the s8xx device and are not using SSH, just run this `make` command.  
+The following step will take more than 2 hours to complete on the s8xx device. For me it took 2h45m to finish on my s805 1gb ram Sandisk SD card class 10 U1.
 ```
-cd /root/linux-meson-mx-integration-5.11-20201225/
-make -j4 LOCALVERSION="-aml-s812" LOADADDR=0x00208000 uImage modules && make modules_install && make headers_install
+cd /root/linux-meson-mx-integration-5.14-20210718/
+make -j$(nproc) LOCALVERSION="-aml-s812" LOADADDR=0x00208000 uImage modules && make modules_install && make headers_install
 ```
-(The AML s8xx series SoC all have 4 cpu cores, otherwise change the `4` to the number of cpu cores on the machine that you will be compiling it on)
+If you are using SSH to build the kernel, do it this way instead:
+```
+screen # press enter to dismiss the license text
+cd /root/linux-meson-mx-integration-5.14-20210718/
+make -j$(nproc) LOCALVERSION="-aml-s812" LOADADDR=0x00208000 uImage modules && make modules_install && make headers_install
+```
+To detach the `screen`, Press these keys: `CTRL + a` and `CTRL + d`  
+To re-attach to the `screen`, use this command `screen -r`
+You can also use `screen -r` if you disconnect from SSH to reconnect to the `screen`.
 
-When you execute the make command it may ask you to set new config values in addition to the .config's ones.
+If you are using a Linux PC to compile the kernel, execute this command instead:
+```
+cd /root/linux-meson-mx-integration-5.14-20210718/
+make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- LOCALVERSION="-aml-s812" LOADADDR=0x00208000 uImage modules
+```
 
-The new configs can just be set to default most of the time.
+When you execute the make command it may ask you to set new config values in addition to the .config's ones.  
+The new configs can just be set to default most of the time.  
+I just hold the `Enter` key until there is no more config to set. (Sets all new config to default)
 
-I will just spam the `Enter` key until there is no more config to set. (Sets all new config to default)
-
-You can abort this command at anytime with `CTRL + C`
+You can abort compiling the kernel at anytime with `CTRL + C`
 
 There is no more config to set when you will see the compiler slowly print one line at the time. This is where the waiting game starts.
 
 After the command is finished, you are almost done.
 
+If you are using a Linux PC to compile the kernel, do these extra steps:
+```
+cd /root/
+rsync -av -e ssh --progress linux-meson-mx-integration-5.14-20210718 root@<s8xx_ssh_ip>:/root/
+ssh root@<s8xx_ssh_ip>
+cd /root/linux-meson-mx-integration-5.14-20210718
+make modules_install && make headers_install
+```
+Alternatively, you can copy the `linux-meson-mx-integration-5.14-20210718` to the s8xx devive however you like
+
 Make a backup of the current Linux Kernel and apply the new one.
 ```
-# still inside /root/linux-meson-mx-integration-5.11-20201225/
+# still inside /root/linux-meson-mx-integration-5.14-20210718/
 cp /boot/uImage /boot/uImage.bak
-cp arch/arm/boot/uImage /boot 
+cp arch/arm/boot/uImage /boot/
 ```
 Restart your device and hope it works.
 
@@ -90,8 +123,8 @@ If it does not work and you are stuck in a black/blank screen, plug the sd card 
 
 ## Optional: copy the new finalized config file to the /boot partition
 ```
-# still inside /root/linux-meson-mx-integration-5.11-20201225/
-cp .config /boot/config-5.11
+# still inside /root/linux-meson-mx-integration-5.14-20210718/
+cp .config /boot/config-5.14
 ```
 ## Checking if Docker works
 
@@ -116,32 +149,3 @@ https://forum.armbian.com/topic/3023-armbian-for-amlogic-s805-and-s802s812/page/
 https://forum.armbian.com/topic/3023-armbian-for-amlogic-s805-and-s802s812/page/20/?tab=comments#comment-98704
 
 https://www.right.com.cn/forum/thread-4115554-1-1.html
-
-## Missing config for docker, add these lines at the very end of the .config file:
-
-(For linux version 5.10 => 5.11) \
-CONFIG_POSIX_MQUEUE=y \
-CONFIG_POSIX_MQUEUE_SYSCTL=y
-
-<h1>(below here is old, do not use!)</h1>
-
-(For linux version 5.9 => 5.10) \
-CONFIG_NF_NAT_IPV4=y \
-CONFIG_NF_NAT_NEEDED=y \
-CONFIG_POSIX_MQUEUE=y \
-CONFIG_MEMCG_SWAP_ENABLED=y \
-CONFIG_BLK_DEV_THROTTLING=y \
-CONFIG_IOSCHED_CFQ=y \
-CONFIG_CFQ_GROUP_IOSCHED=y \
-CONFIG_CGROUP_HUGETLB=y \
-CONFIG_RT_GROUP_SCHED=y \
-CONFIG_IP_VS_NFCT=y \
-CONFIG_IP_VS_PROTO_TCP=y \
-CONFIG_IP_VS_PROTO_UDP=y \
-CONFIG_IP_VS_RR=y \
-CONFIG_EXT3_FS_XATTR=y \
-CONFIG_EXT3_FS_POSIX_ACL=y \
-CONFIG_EXT3_FS_SECURITY=y \
-CONFIG_INET_XFRM_MODE_TRANSPORT=y \
-CONFIG_AUFS_FS=y \
-CONFIG_BTRFS_FS_POSIX_ACL=y
