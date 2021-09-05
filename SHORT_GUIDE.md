@@ -7,6 +7,7 @@ If you don't understand, read the original guide in `README.md`.
 Prerequisites:
 - Cross compile toolchains for armhf [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabihf/)
 
+Main steps:
 1. `git clone --depth=1` or download the zip for the latest active branch of `meson-mx-integration` [here](https://github.com/xdarklight/linux/branches)
 
 2. Get kernel config file:
