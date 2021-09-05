@@ -1,5 +1,7 @@
 # Steps to build your own s8xx kernel (armhf) that works with Docker!
 
+### Check out [SHORT_GUIDE.md](https://github.com/SLAzurin/armbian-aml-s8xx-kernel-build-steps/blob/main/SHORT_GUIDE.md) for the quick straightforward list of steps if you know what you are doing.
+
 It is best you read the guide at least once and understand it before you start.
 
 I am not responsible for any damages you cause to your devices.
