@@ -1,6 +1,13 @@
 # Steps to build your own s8xx kernel (armhf) that works with Docker!
 
-### Check out [SHORT_GUIDE.md](https://github.com/SLAzurin/armbian-aml-s8xx-kernel-build-steps/blob/main/SHORT_GUIDE.md) for the quick straightforward list of steps if you know what you are doing.
+## Download my prebuilt image that works with Docker:
+### Armbian Ubuntu 20.04 focal-cli with Linux 5.14-rc-2 [here](https://github.com/SLAzurin/build-armbian-custom/releases/tag/v2021.11-s8xx)
+<br/>
+<br/>
+
+### Check out [SHORT_GUIDE.md](https://github.com/SLAzurin/armbian-aml-s8xx-kernel-build-steps/blob/main/SHORT_GUIDE.md) for the quick straightforward list of steps if you know what you are doing.  
+<br/>
+<br/>
 
 It is best you read the guide at least once and understand it before you start.
 
